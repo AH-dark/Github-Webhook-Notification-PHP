@@ -1,38 +1,47 @@
 <?php
 
-namespace Main;
+use WeWork\GroupBot;
 
-use Github\GithubHandle;
+require "./wework.php";
 
+function object_to_array(object $obj): array
+{
+    $_arr= get_object_vars($obj);
+    $arr = null;
+    foreach($_arr as $key=>$val){
+        $val=(is_array($val))||is_object($val)?object_to_array($val):$val;
+        $arr[$key]=$val;
+    }
+    return $arr;
+}
+
+/**
+ * @describe Main
+ * @param object $event
+ * @param object $context
+ * @return array
+ */
 function main_handler($event, $context)
 {
-	$handle = json_decode(urldecode($event));
-	$_Event = $handle['headers']['X-GitHub-Event'];
+    $headers = object_to_array($event->headers);
+    $githubEvent = $headers['x-github-event'];
+    $wechat = new GroupBot();
+    $wechat->setSendKey($event->queryString->sendkey);
+    $body = json_decode($event->body,1);
 
-	// 非Github请求
-	if ($_Event == null) {
-		return json_encode([
-			"isBase64Encoded" => false,
-			"statusCode" => 500,
-			"headers" => [
-				"Content-Type" => "text/html"
-			],
-			"body" => "<html><body><p>Not a Github Webhook handle.</p></body></html>"
-		]);
-	}
+    switch($githubEvent) {
+        case "ping":
+            $res = $wechat->sendMessage("收到Ping请求，字符串为".$body['zen']."，hookId为".$body['hook_id']."。");
+            break;
+    }
 
-	// 验证UA
-	if (strpos($handle['headers']['GitHub-Hookshot'], 'GitHub-Hookshot') === false) {
-		return json_encode([
-			"isBase64Encoded" => false,
-			"statusCode" => 500,
-			"headers" => [
-				"Content-Type" => "text/html"
-			],
-			"body" => "<html><body><p>Error User Agent</p></body></html>"
-		]);
-	}
-
-	$Github = new GithubHandle;
-	$Github->Handle($event);
+    return [
+        "isBase64Encoded" => false,
+        "statusCode" => isset($res['error'])?500:200,
+        "headers" => '{"Content-Type":"application/json"}',
+        "body" => [
+            "code" => isset($res['error'])?500:200,
+            "message" => $res['error'] ?? "OK"
+        ]
+    ];
 }
