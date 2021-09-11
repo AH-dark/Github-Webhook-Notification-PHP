@@ -20,6 +20,9 @@ function object_to_array(object $obj): array
  * @param object $event
  * @param object $context
  * @return array
+ * @noinspection PhpMissingReturnTypeInspection
+ * @noinspection PhpMissingParamTypeInspection
+ * @noinspection PhpUnusedParameterInspection
  */
 function main_handler($event, $context)
 {
@@ -32,6 +35,31 @@ function main_handler($event, $context)
     switch($githubEvent) {
         case "ping":
             $res = $wechat->sendMessage("收到Ping请求，字符串为".$body['zen']."，hookId为".$body['hook_id']."。");
+            break;
+        case "push":
+            $message = <<<EOF
+### 有新的Push事件
+
+仓库: [{$body['repository']['name']}]({$body['repository']['html_url']})
+
+推送者: [{$body['pusher']['name']}({$body['pusher']['email']})]({$body['sender']['html_url']})
+
+EOF;
+            foreach ($body['commits'] as $commit) {
+                $message .= <<<EOF
+
+> Commit {$commit['id']}: 
+> 
+> <font color=\"comment\">{$commit['message']}</font>
+> 
+> on {$commit['timestamp']}
+> 
+> [查看详情]({$commit['url']})
+
+EOF;
+            }
+            $message .= "\nSHA: ".$body['after'];
+            $res = $wechat->sendMarkdownMessage($message);
             break;
     }
 

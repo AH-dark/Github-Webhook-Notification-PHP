@@ -40,6 +40,22 @@ class GroupBot
     }
 
     /**
+     * @describe 发送Markdown消息
+     * @param string $message
+     * @return array
+     */
+    public function sendMarkdownMessage(string $message): array
+    {
+        $data = json_encode([
+            "msgtype" => "markdown",
+            "markdown" => [
+                "content" => $message
+            ]
+        ]);
+        return $this->curl_send($data);
+    }
+
+    /**
      * 获取Gateway Url
      * @return string 企业微信发送地址
      * @throws Exception
