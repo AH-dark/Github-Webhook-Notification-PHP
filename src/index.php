@@ -1,8 +1,14 @@
 <?php
 
+use GitHub\pull_request;
+use GitHub\push;
 use WeWork\GroupBot;
 
 require "./wework.php";
+require "./markdown.class.php";
+require "./github/github.class.php";
+require "./github/push.class.php";
+require "./github/pull-request.class.php";
 
 function object_to_array(object $obj): array
 {
@@ -37,29 +43,20 @@ function main_handler($event, $context)
             $res = $wechat->sendMessage("收到Ping请求，字符串为".$body['zen']."，hookId为".$body['hook_id']."。");
             break;
         case "push":
-            $message = <<<EOF
-### 有新的Push事件
-
-仓库: [{$body['repository']['name']}]({$body['repository']['html_url']})
-
-推送者: [{$body['pusher']['name']}({$body['pusher']['email']})]({$body['sender']['html_url']})
-
-EOF;
-            foreach ($body['commits'] as $commit) {
-                $message .= <<<EOF
-
-> Commit {$commit['id']}: 
-> 
-> <font color=\"comment\">{$commit['message']}</font>
-> 
-> on {$commit['timestamp']}
-> 
-> [查看详情]({$commit['url']})
-
-EOF;
+            $github = new push($body);
+            try {
+                $res = $wechat->sendMarkdownMessage($github->getMessage());
+            } catch (Exception $e) {
+                $wechat->sendMessage($e->getCode() ."error: ".$e->getMessage());
             }
-            $message .= "\nSHA: ".$body['after'];
-            $res = $wechat->sendMarkdownMessage($message);
+            break;
+        case "pull_request":
+            $github = new pull_request($body);
+            try {
+                $res = $wechat->sendMarkdownMessage($github->getMessage());
+            } catch (Exception $e) {
+                $wechat->sendMessage($e->getCode() ."error: ".$e->getMessage());
+            }
             break;
     }
 
