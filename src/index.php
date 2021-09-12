@@ -1,14 +1,13 @@
 <?php
 
+use GitHub\issues;
 use GitHub\pull_request;
 use GitHub\push;
 use WeWork\GroupBot;
 
-require "./wework.php";
-require "./markdown.class.php";
-require "./github/github.class.php";
-require "./github/push.class.php";
-require "./github/pull-request.class.php";
+require_once "./wework.php";
+require_once "./markdown.class.php";
+require_once "./github/autoload.php";
 
 function object_to_array(object $obj): array
 {
@@ -46,6 +45,7 @@ function main_handler($event, $context)
             $github = new push($body);
             try {
                 $message = $github->getMessage();
+                echo $message;
                 $res = $wechat->sendMarkdownMessage($message);
             } catch (Exception $e) {
                 $wechat->sendMessage($e->getCode() . "error: " . $e->getMessage());
@@ -55,6 +55,17 @@ function main_handler($event, $context)
             $github = new pull_request($body);
             try {
                 $message = $github->getMessage();
+                echo $message;
+                $res = $wechat->sendMarkdownMessage($message);
+            } catch (Exception $e) {
+                $wechat->sendMessage($e->getCode() . "error: " . $e->getMessage());
+            }
+            break;
+        case "issues":
+            $github = new issues($body);
+            try {
+                $message = $github->getMessage();
+                echo $message;
                 $res = $wechat->sendMarkdownMessage($message);
             } catch (Exception $e) {
                 $wechat->sendMessage($e->getCode() . "error: " . $e->getMessage());

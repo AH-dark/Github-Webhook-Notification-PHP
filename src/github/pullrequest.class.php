@@ -38,21 +38,17 @@ class pull_request extends github
         }
 
         $message = new markdown();
-        $message->addTitle($message->getLink("#" . $this->data['number'], $this->data['pull_request']['html_url']) . " 有新的 " . $message->getColorText("Pull Request", "info") . " " .$this->_e($this->data['action']));
+        $message->addTitle($message->getLink("#" . $this->data['number'], $this->data['pull_request']['html_url']) . " 有新的 " . $message->getColorText("Pull Request", "info") . " " . $this->_e($this->data['action']));
         $message->addText("仓库: " . $message->getLink($this->data['pull_request']['head']['label'], $this->data['pull_request']['head']['repo']['html_url'] . "/tree/" . $this->data['pull_request']['head']['ref']) . " to " . $message->getLink($this->data['pull_request']['base']['label'], $this->data['pull_request']['base']['repo']['html_url'] . "/tree/" . $this->data['pull_request']['base']['ref']));
         return $message->message();
     }
 
-    private function _e($text, bool $echo = false)
+    private function _e($text): string
     {
         $return = self::translateList[$text];
         if ($text == "closed" && $this->data['merged']) {
             $return = self::translateList[$text] . "并成功合入分支";
         }
-        if ($echo) {
-            return print $return;
-        } else {
-            return $return;
-        }
+        return $return;
     }
 }
