@@ -12,11 +12,11 @@ require "./github/pull-request.class.php";
 
 function object_to_array(object $obj): array
 {
-    $_arr= get_object_vars($obj);
+    $_arr = get_object_vars($obj);
     $arr = null;
-    foreach($_arr as $key=>$val){
-        $val=(is_array($val))||is_object($val)?object_to_array($val):$val;
-        $arr[$key]=$val;
+    foreach ($_arr as $key => $val) {
+        $val = (is_array($val)) || is_object($val) ? object_to_array($val) : $val;
+        $arr[$key] = $val;
     }
     return $arr;
 }
@@ -36,36 +36,38 @@ function main_handler($event, $context)
     $githubEvent = $headers['x-github-event'];
     $wechat = new GroupBot();
     $wechat->setSendKey($event->queryString->sendkey);
-    $body = json_decode($event->body,1);
+    $body = json_decode($event->body, 1);
 
-    switch($githubEvent) {
+    switch ($githubEvent) {
         case "ping":
-            $res = $wechat->sendMessage("收到Ping请求，字符串为".$body['zen']."，hookId为".$body['hook_id']."。");
+            $res = $wechat->sendMessage("收到Ping请求，字符串为" . $body['zen'] . "，hookId为" . $body['hook_id'] . "。");
             break;
         case "push":
             $github = new push($body);
             try {
-                $res = $wechat->sendMarkdownMessage($github->getMessage());
+                $message = $github->getMessage();
+                $res = $wechat->sendMarkdownMessage($message);
             } catch (Exception $e) {
-                $wechat->sendMessage($e->getCode() ."error: ".$e->getMessage());
+                $wechat->sendMessage($e->getCode() . "error: " . $e->getMessage());
             }
             break;
         case "pull_request":
             $github = new pull_request($body);
             try {
-                $res = $wechat->sendMarkdownMessage($github->getMessage());
+                $message = $github->getMessage();
+                $res = $wechat->sendMarkdownMessage($message);
             } catch (Exception $e) {
-                $wechat->sendMessage($e->getCode() ."error: ".$e->getMessage());
+                $wechat->sendMessage($e->getCode() . "error: " . $e->getMessage());
             }
             break;
     }
 
     return [
         "isBase64Encoded" => false,
-        "statusCode" => isset($res['error'])?500:200,
+        "statusCode" => isset($res['error']) ? 500 : 200,
         "headers" => '{"Content-Type":"application/json"}',
         "body" => [
-            "code" => isset($res['error'])?500:200,
+            "code" => isset($res['error']) ? 500 : 200,
             "message" => $res['error'] ?? "OK"
         ]
     ];

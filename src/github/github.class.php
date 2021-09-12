@@ -2,14 +2,16 @@
 
 namespace GitHub;
 
-use Exception;
-
 class github
 {
     /**
      * @var array Data from body
      */
     protected $data = [];
+    /**
+     * @var string Event Name
+     */
+    protected $event = "";
 
     /**
      * @describe 设置Data
@@ -20,11 +22,6 @@ class github
     {
         return ($this->data = $data);
     }
-
-    /**
-     * @var string Event Name
-     */
-    protected $event = "";
 
     /**
      * @describe 设置Event
@@ -38,6 +35,6 @@ class github
 
     protected function isSet(): bool
     {
-        return $this->data!=[]&&$this->event!="";
+        return $this->data != [] && $this->event != "";
     }
 }

@@ -40,19 +40,29 @@ class GroupBot
     }
 
     /**
-     * @describe 发送Markdown消息
-     * @param string $message
+     * @describe 发送请求
+     * @param string $data
+     * @param array $header
      * @return array
      */
-    public function sendMarkdownMessage(string $message): array
+    protected function curl_send(string $data, array $header = ["Content-type:application/json;charset='utf-8'", "Accept:application/json"]): array
     {
-        $data = json_encode([
-            "msgtype" => "markdown",
-            "markdown" => [
-                "content" => $message
-            ]
-        ]);
-        return $this->curl_send($data);
+        $ch = curl_init();
+        try {
+            curl_setopt_array($ch, [
+                CURLOPT_URL => $this->getSendUrl(),
+                CURLOPT_POST => 1,
+                CURLOPT_HTTPHEADER => $header,
+                CURLOPT_RETURNTRANSFER => 1,
+                CURLOPT_SSL_VERIFYPEER => 0,
+                CURLOPT_SSL_VERIFYHOST => 0,
+                CURLOPT_POSTFIELDS => $data
+            ]);
+        } catch (Exception $e) {
+            return ["error" => $e->getMessage()];
+        }
+        $res = curl_exec($ch);
+        return json_decode($res, 1);
     }
 
     /**
@@ -70,29 +80,19 @@ class GroupBot
     }
 
     /**
-     * @describe 发送请求
-     * @param string $data
-     * @param array $header
+     * @describe 发送Markdown消息
+     * @param string $message
      * @return array
      */
-    protected function curl_send(string $data, array $header=["Content-type:application/json;charset='utf-8'","Accept:application/json"]): array
+    public function sendMarkdownMessage(string $message): array
     {
-        $ch = curl_init();
-        try {
-            curl_setopt_array($ch, [
-                CURLOPT_URL => $this->getSendUrl(),
-                CURLOPT_POST => 1,
-                CURLOPT_HTTPHEADER => $header,
-                CURLOPT_RETURNTRANSFER => 1,
-                CURLOPT_SSL_VERIFYPEER => 0,
-                CURLOPT_SSL_VERIFYHOST => 0,
-                CURLOPT_POSTFIELDS => $data
-            ]);
-        } catch (Exception $e) {
-            return ["error"=>$e->getMessage()];
-        }
-        $res = curl_exec($ch);
-        return json_decode($res,1);
+        $data = json_encode([
+            "msgtype" => "markdown",
+            "markdown" => [
+                "content" => $message
+            ]
+        ]);
+        return $this->curl_send($data);
     }
 
 }

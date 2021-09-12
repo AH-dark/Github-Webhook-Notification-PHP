@@ -1,4 +1,5 @@
 <?php
+
 namespace WeWork;
 
 /**
@@ -9,24 +10,34 @@ namespace WeWork;
  */
 class markdown
 {
-     protected $message = "";
+    protected $message = "";
 
     /**
      * @param string $title
      * @param string $text
      */
-    function __construct(string $title="", string $text="") {
-        $this->addTitle($title);
-        $this->addMessage($text);
+    function __construct(string $title = "", string $text = "")
+    {
+        if ($title != "") {
+            $this->addTitle($title);
+        }
+        if ($text != "") {
+            $this->addMessage($text);
+        }
     }
 
     /**
-     * @describe 获取全部消息
-     * @return string
+     * @describe 添加一段标题
+     * @param string $title 标题内容
+     * @param int $level '#'数量
+     * @return bool
      */
-    public function message(): string
+    public function addTitle(string $title, int $level = 3): bool
     {
-        return $this->message;
+        if ($level > 6) $level = 6;
+        if ($level < 1) $level = 1;
+
+        return $this->addMessage(str_repeat("#", $level) . " " . $title);
     }
 
     /**
@@ -36,22 +47,17 @@ class markdown
      */
     protected function addMessage(string $message): bool
     {
-        $this->message .= $message."\n\n";
+        $this->message .= $message . "\n\n";
         return true;
     }
 
     /**
-     * @describe 添加一段标题
-     * @param string $title 标题内容
-     * @param int $level '#'数量
-     * @return bool
+     * @describe 获取全部消息
+     * @return string
      */
-    public function addTitle(string $title,int $level = 3): bool
+    public function message(): string
     {
-        if($level>6) $level=6;
-        if($level<1) $level=1;
-
-        return $this->addMessage(str_repeat("#", $level)." ".$title);
+        return $this->message;
     }
 
     /**
@@ -71,18 +77,18 @@ class markdown
      */
     public function addList($list): bool
     {
-        if(gettype($list)=="string") {
+        if (gettype($list) == "string") {
             return $this->addMessage($list);
-        } else if (gettype($list)=="array") {
+        } else if (gettype($list) == "array") {
             $return = "";
             foreach ($list as $k => $v) {
-                if(is_int($k)) {
+                if (is_int($k)) {
                     $return .= "- $v\n";
                 } else {
                     $return .= "- $k: $v\n";
                 }
             }
-            return $this->addMessage(substr($return,0,-1));
+            return $this->addMessage(substr($return, 0, -1));
         } else {
             return false;
         }
@@ -95,18 +101,18 @@ class markdown
      */
     public function addQuote($list): bool
     {
-        if(gettype($list)=="string") {
+        if (gettype($list) == "string") {
             return $this->addMessage($list);
-        } else if (gettype($list)=="array") {
+        } else if (gettype($list) == "array") {
             $return = "";
             foreach ($list as $k => $v) {
-                if(is_int($k)) {
+                if (is_int($k)) {
                     $return .= "> $v\n";
                 } else {
                     $return .= "> $k: $v\n";
                 }
             }
-            return $this->addMessage(substr($return,0,-1));
+            return $this->addMessage(substr($return, 0, -1));
         } else {
             return false;
         }
@@ -139,10 +145,15 @@ class markdown
      * @param string $text
      * @param string $color Expect "info","comment","warning"
      * @return string 企业微信文字加颜色
+     * @noinspection HtmlDeprecatedTag
+     * @noinspection HtmlDeprecatedAttribute
      */
-    public function getColorText(string $text,string $color): string
+    public function getColorText(string $text, string $color): string
     {
-        if($color==="info"||$color==="comment"||$color==="warning") {   return "<font color=\"$color\">$text</font>";   }
-        else {   return $text;  }
+        if ($color === "info" || $color === "comment" || $color === "warning") {
+            return "<font color=\"$color\">$text</font>";
+        } else {
+            return $text;
+        }
     }
 }

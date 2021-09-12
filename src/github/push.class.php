@@ -6,21 +6,24 @@ use Exception;
 
 class push extends github
 {
-    function __construct($data = null) {
+    function __construct($data = null)
+    {
         $this->setEvent("push");
-        if($data!=null) {
+        if ($data != null) {
             $this->setData($data);
         }
     }
 
     /**
-     * @throws Exception
      * @return string
      * @noinspection HtmlDeprecatedTag
+     * @throws Exception
      */
     public function getMessage(): string
     {
-        if(!$this->isSet()) {   throw new Exception("未设置data或event");  }
+        if (!$this->isSet()) {
+            throw new Exception("未设置data或event");
+        }
         $body = $this->data;
         $message = <<<EOF
 ### 有新的<font color=\"warning\">Push</font>事件
@@ -43,7 +46,7 @@ EOF;
 
 EOF;
         }
-        $message .= "\nSHA: ".$body['after'];
+        $message .= "\nSHA: " . $body['after'];
         return $message;
     }
 }
