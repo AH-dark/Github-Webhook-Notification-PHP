@@ -34,8 +34,8 @@ class release extends github
                 $release = new stdClass();
                 $release->web_url = $data['release']['html_url'];
                 $release->version = $data['release']['tag_name'];
-                $release->name = $data['release']['name'];
-                $release->describe = $data['release']['body'];
+                $release->name = $data['release']['name']??$release->version;
+                $release->describe = $data['release']['body']??$release->name;
                 $release->download->tar = $data['release']['tarball_url'];
                 $release->download->zip = $data['release']['zipball_url'];
 
@@ -49,8 +49,8 @@ class release extends github
                 $repository->url = $data['repository']['html_url'];
 
 
-                $message->addTitle("有新的**Release**发布: " . $message->getLink($release->name, $release->web_url));
-                $message->addText($release->describe);
+                $message->addTitle("有新的Release发布: " . $message->getLink($release->name, $release->web_url));
+                $release->describe??$message->addText($release->describe);
                 $message->addText("版本: " . $release->version);
                 $message->addLine();
                 $message->addText("发布者: " . $message->getLink($sender->name, $sender->url));
