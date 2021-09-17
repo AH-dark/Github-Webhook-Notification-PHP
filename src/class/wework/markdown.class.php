@@ -65,9 +65,18 @@ class markdown
      * @param string $text 文字内容
      * @return bool
      */
-    public function addText(string $text): bool
+    public function addText(string $text = ""): bool
     {
         return $this->addMessage($text);
+    }
+
+    /**
+     * @describe 添加空行
+     * @return bool
+     */
+    public function addLine(): bool
+    {
+        return $this->addMessage("");
     }
 
     /**

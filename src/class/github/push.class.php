@@ -32,11 +32,12 @@ class push extends github
 推送者: [{$body['pusher']['name']}({$body['pusher']['email']})]({$body['sender']['html_url']})
 EOF;
         foreach ($body['commits'] as $commit) {
+            $timestamp = UTC_to_time($commit['timestamp']);
             $message .= <<<EOF
 
 > Commit {$commit['id']}: 
 > {$commit['message']}
-> on {$commit['timestamp']}
+> on {$timestamp}
 > [查看详情]({$commit['url']})
 
 EOF;

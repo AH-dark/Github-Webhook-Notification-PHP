@@ -3,6 +3,7 @@
 use GitHub\issues;
 use GitHub\pullrequest;
 use GitHub\push;
+use GitHub\release;
 use WeWork\GroupBot;
 
 require_once __DIR__ . "/class/wework/autoload.php";
@@ -63,6 +64,16 @@ function main_handler($event, $context)
             break;
         case "issues":
             $github = new issues($body);
+            try {
+                $message = $github->getMessage();
+                echo $message;
+                $res = $wechat->sendMarkdownMessage($message);
+            } catch (Exception $e) {
+                $wechat->sendMessage($e->getCode() . "error: " . $e->getMessage());
+            }
+            break;
+        case "release":
+            $github = new release($body);
             try {
                 $message = $github->getMessage();
                 echo $message;
