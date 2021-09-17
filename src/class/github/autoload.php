@@ -14,3 +14,6 @@ require_once __DIR__ . "/pullrequest.class.php";
 
 // Issue Event
 require_once __DIR__ . "/issues.class.php";
+
+// Release Event
+require_once __DIR__ . "/release.class.php";
