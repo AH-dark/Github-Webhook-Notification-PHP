@@ -20,7 +20,7 @@ class pullrequest extends github
 
     function __construct($data = null)
     {
-        $this->setEvent("push");
+        $this->setEvent("pullrequest");
         if ($data != null) {
             $this->setData($data);
         }

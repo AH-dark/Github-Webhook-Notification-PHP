@@ -9,7 +9,7 @@ class issues extends github
 {
     function __construct($data = null)
     {
-        $this->setEvent("push");
+        $this->setEvent("issue");
         if ($data != null) {
             $this->setData($data);
         }

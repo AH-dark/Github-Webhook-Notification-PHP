@@ -10,6 +10,8 @@ function UTC_to_time(string $utcTime): string
     //  2021-09-17T20:43:46+08:00
     $utcTime = trim($utcTime);
     preg_match("/^(\d{4})-(\d{1,2})-(\d{1,2})T(\d{1,2}):(\d{1,2}):(\d{1,2})([+-]\d{1,2}):(\d{1,2})$/i", $utcTime, $time);
+    echo "UTC to Time:\n";
+    print_r($time);
     $_time = [
         "y" => (int)$time[1],
         "m" => (int)$time[2],

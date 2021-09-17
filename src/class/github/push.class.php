@@ -37,7 +37,7 @@ EOF;
 
 > Commit {$commit['id']}: 
 > {$commit['message']}
-> on {$timestamp}
+> on $timestamp
 > [查看详情]({$commit['url']})
 
 EOF;
