@@ -26,22 +26,16 @@ class push extends github
         }
         $body = $this->data;
         $message = <<<EOF
-### 有新的<font color=\"warning\">Push</font>事件
-
+### 有新的<font color="warning">Push</font>事件
 仓库: [{$body['repository']['name']}]({$body['repository']['html_url']})
-
 推送者: [{$body['pusher']['name']}({$body['pusher']['email']})]({$body['sender']['html_url']})
-
 EOF;
         foreach ($body['commits'] as $commit) {
             $message .= <<<EOF
 
 > Commit {$commit['id']}: 
-> 
-> <font color=\"comment\">{$commit['message']}</font>
-> 
+> {$commit['message']}
 > on {$commit['timestamp']}
-> 
 > [查看详情]({$commit['url']})
 
 EOF;
