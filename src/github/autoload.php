@@ -2,7 +2,15 @@
 /**
  * @describe Load Class in namespace GitHub
  */
-require_once "github.class.php";
-require_once "push.class.php";
-require_once "pullrequest.class.php";
-require_once "issues.class.php";
+
+// Main Class
+require_once __DIR__."/github.class.php";
+
+// Push Event
+require_once __DIR__."/push.class.php";
+
+// Pull Request Event
+require_once __DIR__."/pullrequest.class.php";
+
+// Issue Event
+require_once __DIR__."/issues.class.php";

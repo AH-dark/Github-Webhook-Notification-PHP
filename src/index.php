@@ -1,13 +1,13 @@
 <?php
 
 use GitHub\issues;
-use GitHub\pull_request;
+use GitHub\pullrequest;
 use GitHub\push;
 use WeWork\GroupBot;
 
-require_once "./wework.php";
-require_once "./markdown.class.php";
-require_once "./github/autoload.php";
+require_once __DIR__."/wework.php";
+require_once __DIR__."/markdown.class.php";
+require_once __DIR__."/github/autoload.php";
 
 function object_to_array(object $obj): array
 {
@@ -52,7 +52,7 @@ function main_handler($event, $context)
             }
             break;
         case "pull_request":
-            $github = new pull_request($body);
+            $github = new pullrequest($body);
             try {
                 $message = $github->getMessage();
                 echo $message;
