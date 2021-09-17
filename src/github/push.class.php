@@ -18,6 +18,7 @@ class push extends github
      * @return string
      * @noinspection HtmlDeprecatedTag
      * @throws Exception
+     * @noinspection HtmlDeprecatedAttribute
      */
     public function getMessage(): string
     {

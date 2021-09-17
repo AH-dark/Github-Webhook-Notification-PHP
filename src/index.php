@@ -1,7 +1,7 @@
 <?php
 
 use GitHub\issues;
-use GitHub\pull_request;
+use GitHub\pullrequest;
 use GitHub\push;
 use WeWork\GroupBot;
 
@@ -52,7 +52,7 @@ function main_handler($event, $context)
             }
             break;
         case "pull_request":
-            $github = new pull_request($body);
+            $github = new pullrequest($body);
             try {
                 $message = $github->getMessage();
                 echo $message;

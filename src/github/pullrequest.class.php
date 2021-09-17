@@ -5,7 +5,7 @@ namespace GitHub;
 use Exception;
 use WeWork\markdown;
 
-class pull_request extends github
+class pullrequest extends github
 {
     private const translateList = [
         "opened" => "打开",
