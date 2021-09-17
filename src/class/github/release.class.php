@@ -19,7 +19,8 @@ class release extends github
     /**w
      * @throws Exception
      */
-    public function getMessage(): string {
+    public function getMessage(): string
+    {
         if (!$this->isSet()) {
             throw new Exception("未设置data或event");
         }
@@ -48,16 +49,16 @@ class release extends github
                 $repository->url = $data['repository']['html_url'];
 
 
-                $message->addTitle("有新的**Release**发布: ".$message->getLink($release->name,$release->web_url));
+                $message->addTitle("有新的**Release**发布: " . $message->getLink($release->name, $release->web_url));
                 $message->addText($release->describe);
-                $message->addText("版本: ".$release->version);
+                $message->addText("版本: " . $release->version);
                 $message->addLine();
-                $message->addText("发布者: ".$message->getLink($sender->name,$sender->url));
-                $message->addText("仓库: ".$message->getLink($repository->name,$repository->url));
-                if(!$repository->isPrivate) {
+                $message->addText("发布者: " . $message->getLink($sender->name, $sender->url));
+                $message->addText("仓库: " . $message->getLink($repository->name, $repository->url));
+                if (!$repository->isPrivate) {
                     $message->addLine();
-                    $message->addText($message->getLink("下载tar.gz格式源代码",$release->download->tar));
-                    $message->addText($message->getLink("下载zip格式源代码",$release->download->zip));
+                    $message->addText($message->getLink("下载tar.gz格式源代码", $release->download->tar));
+                    $message->addText($message->getLink("下载zip格式源代码", $release->download->zip));
                 }
                 break;
             case "prereleased": //预发布
@@ -79,15 +80,15 @@ class release extends github
                 $repository->url = $data['repository']['html_url'];
 
 
-                $message->addTitle("有新的**Release**预发布: ".$message->getLink($release->name,$release->web_url));
+                $message->addTitle("有新的**Release**预发布: " . $message->getLink($release->name, $release->web_url));
                 $message->addText($release->describe);
                 $message->addLine();
-                $message->addText("发布者: ".$message->getLink($sender->name,$sender->url));
-                $message->addText("仓库: ".$message->getLink($repository->name,$repository->url));
-                if(!$repository->isPrivate) {
+                $message->addText("发布者: " . $message->getLink($sender->name, $sender->url));
+                $message->addText("仓库: " . $message->getLink($repository->name, $repository->url));
+                if (!$repository->isPrivate) {
                     $message->addLine();
-                    $message->addText($message->getLink("下载tar.gz格式源代码",$release->download->tar));
-                    $message->addText($message->getLink("下载zip格式源代码",$release->download->zip));
+                    $message->addText($message->getLink("下载tar.gz格式源代码", $release->download->tar));
+                    $message->addText($message->getLink("下载zip格式源代码", $release->download->zip));
                 }
                 break;
             case "edited": //编辑
@@ -105,9 +106,9 @@ class release extends github
                 $repository->url = $data['repository']['html_url'];
 
 
-                $message->addTitle("**Release**被编辑: ".$message->getLink($release->name,$release->web_url));
-                $message->addText("操作者: ".$message->getLink($sender->name,$sender->url));
-                $message->addText("仓库: ".$message->getLink($repository->name,$repository->url));
+                $message->addTitle("**Release**被编辑: " . $message->getLink($release->name, $release->web_url));
+                $message->addText("操作者: " . $message->getLink($sender->name, $sender->url));
+                $message->addText("仓库: " . $message->getLink($repository->name, $repository->url));
                 break;
             case "deleted": //删除
                 // 初始化
@@ -124,9 +125,9 @@ class release extends github
                 $repository->url = $data['repository']['html_url'];
 
 
-                $message->addTitle("**Release**被删除: ".$message->getLink($release->name,$release->web_url));
-                $message->addText("操作者: ".$message->getLink($sender->name,$sender->url));
-                $message->addText("仓库: ".$message->getLink($repository->name,$repository->url));
+                $message->addTitle("**Release**被删除: " . $message->getLink($release->name, $release->web_url));
+                $message->addText("操作者: " . $message->getLink($sender->name, $sender->url));
+                $message->addText("仓库: " . $message->getLink($repository->name, $repository->url));
                 break;
             default:
                 die();
