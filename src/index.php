@@ -85,12 +85,14 @@ function main_handler($event, $context)
     }
 
     return [
-        "isBase64Encoded" => false,
+        "isBase64Encoded" => true,
         "statusCode" => isset($res['error']) ? 500 : 200,
-        "headers" => '{"Content-Type":"application/json"}',
-        "body" => [
+        "headers" => [
+            "Content-Type" => "application/json"
+        ],
+        "body" => base64_encode(json_encode([
             "code" => isset($res['error']) ? 500 : 200,
             "message" => $res['error'] ?? "OK"
-        ]
+        ]))
     ];
 }
