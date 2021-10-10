@@ -6,14 +6,12 @@ use Exception;
 use stdClass;
 use WeWork\markdown;
 
-class release extends github
+class release extends github implements GitHubEvent
 {
     function __construct($data = null)
     {
         $this->setEvent("release");
-        if ($data != null) {
-            $this->setData($data);
-        }
+        parent::__construct($data);
     }
 
     /**w

@@ -1,6 +1,7 @@
 <?php
 
 use GitHub\issues;
+use GitHub\project;
 use GitHub\pullrequest;
 use GitHub\push;
 use GitHub\release;
@@ -82,6 +83,15 @@ function main_handler($event, $context)
                 $wechat->sendMessage($e->getCode() . "error: " . $e->getMessage());
             }
             break;
+        case "project":
+            $github = new project($body);
+            try {
+                $message = $github->getMessage();
+                echo $message;
+                $res = $wechat->sendMarkdownMessage($message);
+            } catch (Exception $e) {
+                $wechat->sendMessage($e->getCode() . "error: " . $e->getMessage());
+            }
     }
 
     return [

@@ -5,7 +5,7 @@ namespace GitHub;
 use Exception;
 use WeWork\markdown;
 
-class pullrequest extends github
+class pullrequest extends github implements GitHubEvent
 {
     private const translateList = [
         "opened" => "打开",
@@ -21,9 +21,7 @@ class pullrequest extends github
     function __construct($data = null)
     {
         $this->setEvent("pullrequest");
-        if ($data != null) {
-            $this->setData($data);
-        }
+        parent::__construct($data);
     }
 
     /**

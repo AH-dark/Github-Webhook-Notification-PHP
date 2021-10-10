@@ -5,14 +5,12 @@ namespace GitHub;
 use Exception;
 use WeWork\markdown;
 
-class issues extends github
+class issues extends github implements GitHubEvent
 {
     function __construct($data = null)
     {
         $this->setEvent("issue");
-        if ($data != null) {
-            $this->setData($data);
-        }
+        parent::__construct($data);
     }
 
     /**

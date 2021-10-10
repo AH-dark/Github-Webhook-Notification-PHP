@@ -4,14 +4,12 @@ namespace GitHub;
 
 use Exception;
 
-class push extends github
+class push extends github implements GitHubEvent
 {
     function __construct($data = null)
     {
         $this->setEvent("push");
-        if ($data != null) {
-            $this->setData($data);
-        }
+        parent::__construct($data);
     }
 
     /**

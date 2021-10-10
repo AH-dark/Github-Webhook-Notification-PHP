@@ -13,6 +13,12 @@ class github
      */
     protected $event = "";
 
+    function __construct($data) {
+        if ($data != null) {
+            $this->setData($data);
+        }
+    }
+
     /**
      * @describe 设置Data
      * @param array $data
