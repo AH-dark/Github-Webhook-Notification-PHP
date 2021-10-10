@@ -1,7 +1,10 @@
 <?php
+
 namespace GitHub;
 
-interface GitHubEvent {
+interface GitHubEvent
+{
     function __construct($data);
+
     public function getMessage(): string;
 }

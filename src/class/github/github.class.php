@@ -13,7 +13,8 @@ class github
      */
     protected $event = "";
 
-    function __construct($data) {
+    function __construct($data)
+    {
         if ($data != null) {
             $this->setData($data);
         }

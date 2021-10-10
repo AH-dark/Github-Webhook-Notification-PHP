@@ -9,6 +9,7 @@ use WeWork\GroupBot;
 
 require_once __DIR__ . "/class/wework/autoload.php";
 require_once __DIR__ . "/class/github/autoload.php";
+require_once __DIR__ . "/interface/github/githubevent.php";
 require_once __DIR__ . "/function/time.php";
 
 function object_to_array(object $obj): array

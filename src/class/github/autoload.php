@@ -17,3 +17,6 @@ require_once __DIR__ . "/issues.class.php";
 
 // Release Event
 require_once __DIR__ . "/release.class.php";
+
+// Project Event
+require_once __DIR__ . "/project.class.php";
