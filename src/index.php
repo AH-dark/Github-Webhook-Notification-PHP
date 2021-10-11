@@ -2,6 +2,7 @@
 
 use GitHub\issues;
 use GitHub\project;
+use GitHub\projectCard;
 use GitHub\pullrequest;
 use GitHub\push;
 use GitHub\release;
@@ -93,6 +94,19 @@ function main_handler($event, $context)
             } catch (Exception $e) {
                 $wechat->sendMessage($e->getCode() . "error: " . $e->getMessage());
             }
+            break;
+        case "project_card":
+            $github = new projectCard($body);
+            try {
+                $message = $github->getMessage();
+                echo $message;
+                $res = $wechat->sendMarkdownMessage($message);
+            } catch (Exception $e) {
+                $wechat->sendMessage($e->getCode() . "error: " . $e->getMessage());
+            }
+            break;
+        default:
+            die("不支持的事件");
     }
 
     return [
