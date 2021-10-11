@@ -40,7 +40,7 @@ class project extends github implements GitHubEvent
                 if (!empty($data['repository'])) {
                     $message->addText("该看板从属于仓库 " . $message->getLink($data['repository']['full_name'], $data['repository']['url']));
                 } else if (!empty($data['organization'])) {
-                    $message->addText("该看板从属于组织 " . $message->getLink($data['organization']['login'], "https://github.com/".$data['organization']['login']));
+                    $message->addText("该看板从属于组织 " . $message->getLink($data['organization']['login'], "https://GitHub.com/".$data['organization']['login']));
                 }
                 $message->addLine();
                 $message->addText($message->getLink("点击查看看板", $projectSubData['html_url']));
@@ -53,7 +53,7 @@ class project extends github implements GitHubEvent
                 if (!empty($data['repository'])) {
                     $message->addText("该看板从属于仓库 " . $message->getLink($data['repository']['full_name'], $data['repository']['html_url']));
                 } else if (!empty($data['organization'])) {
-                    $message->addText("该看板从属于组织 " . $message->getLink($data['organization']['login'], "https://github.com/".$data['organization']['login']));
+                    $message->addText("该看板从属于组织 " . $message->getLink($data['organization']['login'], "https://GitHub.com/".$data['organization']['login']));
                 }
                 $message->addLine();
                 $message->addText($message->getLink("点击查看看板", $projectSubData['html_url']));
@@ -66,7 +66,7 @@ class project extends github implements GitHubEvent
                 if (!empty($data['repository'])) {
                     $message->addText("该看板从属于仓库 " . $message->getLink($data['repository']['full_name'], $data['repository']['html_url']));
                 } else if (!empty($data['organization'])) {
-                    $message->addText("该看板从属于组织 " . $message->getLink($data['organization']['login'], "https://github.com/".$data['organization']['login']));
+                    $message->addText("该看板从属于组织 " . $message->getLink($data['organization']['login'], "https://GitHub.com/".$data['organization']['login']));
                 }
                 $message->addLine();
                 $message->addText($message->getLink("点击查看看板", $projectSubData['html_url']));
@@ -79,7 +79,7 @@ class project extends github implements GitHubEvent
                 if (!empty($data['repository'])) {
                     $message->addText("该看板从属于仓库 " . $message->getLink($data['repository']['full_name'], $data['repository']['html_url']));
                 } else if (!empty($data['organization'])) {
-                    $message->addText("该看板从属于组织 " . $message->getLink($data['organization']['login'], "https://github.com/".$data['organization']['login']));
+                    $message->addText("该看板从属于组织 " . $message->getLink($data['organization']['login'], "https://GitHub.com/".$data['organization']['login']));
                 }
                 break;
             default:

@@ -9,7 +9,7 @@ use WeWork\GroupBot;
 
 require_once __DIR__ . "/interface/github/githubevent.php";
 require_once __DIR__ . "/class/wework/autoload.php";
-require_once __DIR__ . "/class/github/autoload.php";
+require_once __DIR__ . "/class/GitHub/autoload.php";
 require_once __DIR__ . "/function/time.php";
 
 function object_to_array(object $obj): array
@@ -35,7 +35,7 @@ function object_to_array(object $obj): array
 function main_handler($event, $context)
 {
     $headers = object_to_array($event->headers);
-    $githubEvent = $headers['x-github-event'];
+    $githubEvent = $headers['x-GitHub-event'];
     $wechat = new GroupBot();
     $wechat->setSendKey($event->queryString->sendkey);
     $body = json_decode($event->body, 1);
