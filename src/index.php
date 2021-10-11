@@ -36,7 +36,7 @@ function object_to_array(object $obj): array
 function main_handler($event, $context)
 {
     $headers = object_to_array($event->headers);
-    $githubEvent = $headers['x-GitHub-event'];
+    $githubEvent = $headers['x-github-event'];
     $wechat = new GroupBot();
     $wechat->setSendKey($event->queryString->sendkey);
     $body = json_decode($event->body, 1);
@@ -106,6 +106,7 @@ function main_handler($event, $context)
             }
             break;
         default:
+            echo $githubEvent;
             die("不支持的事件");
     }
 
